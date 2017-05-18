@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>满天星</title>
+	<link rel="stylesheet" href="css/index.css">
+	<script src="js/baseFn.js"></script>
+	<script src="js/index.js"></script>
+	<style>
+		*{margin:0; padding:0;}
+		#myCanvas{background: #000; display: block;}
+	</style>
+	<script>
+		window.onload = function(){
+			var MyCanvas = document.getElementById('myCanvas');
+			MyCanvas.width=window.innerWidth;
+			MyCanvas.height=window.innerHeight;
+			 var gd = MyCanvas.getContext('2d');
+			 // gd.arc(圆心xy,半径,起始角度,是否逆时针);
+			 // gd.fillStyle='#fff'
+			 // gd.arc(100,100,10,0,360,false);
+			 // gd.fill();
+			 function mainFn(x,y,r,Color,xMove,yMove){
+			 	this.x=x;
+			 	this.y=y;
+			 	this.r=r;
+			 	this.Color=Color;
+			 	this.xMove=xMove;
+			 	this.yMove=yMove;
+
+			 };
+			 mainFn.prototype.drawArc = function(){
+			 	gd.beginPath();
+			 	if(this.x>MyCanvas.width||this.x<0){
+			 		this.xMove=this.xMove*-1;
+			 	}else if(this.y>MyCanvas.height||this.y<0){
+			 		this.yMove=this.yMove*-1;
+			 	}
+
+			 	this.x+=this.xMove;
+				this.y+=this.yMove;
+			 	gd.arc(this.x,this.y,this.r,0,360,false);
+			 	gd.fillStyle=this.Color;
+			 	gd.fill();
+			 };
+			 var arr = [];
+			 for(var i =0 ;i<200; i++){
+			 	let Arc = new mainFn(radFN(0,MyCanvas.width),radFN(0,MyCanvas.height),oneTwo(0.5,1,1.5),'rgb('+radFN(0,256)+','+radFN(0,256)+','+radFN(0,256)+')',radFnTrue(-3,4),radFnTrue(-3,4));
+			 	arr.push(Arc);
+			 }
+			 setInterval(function(){
+			 	gd.clearRect(0,0,MyCanvas.width,MyCanvas.height)
+			 	for(var i = 0;i<arr.length; i++){
+				 	arr[i].drawArc();
+				 }	
+			 },30)
+			 
+				
+		};
+	</script>
+</head>
+<body>
+	<canvas id="myCanvas"></canvas>
+</body>
+</html>
